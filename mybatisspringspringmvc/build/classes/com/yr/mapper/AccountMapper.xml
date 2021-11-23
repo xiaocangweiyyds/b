@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yr.mapper.AccountMapper">
+
+	<resultMap type="com.yr.entity.Account" id="queryAccountMap">
+		<id column="a_id" property="id" />
+		<result column="a_name" property="name" />
+		<result column="a_password" property="password" />
+	</resultMap>
+	
+	<insert id="add" parameterType="Account">
+		insert into account(a_name,a_password,a_mark,a_email) values(#{name},#{password},0,#{email})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from account where a_id=#{id}
+	</delete>
+	
+	<update id="update" parameterType="Account">
+		update account set a_name=#{name} where a_id=#{id}
+	</update>
+
+	<select id="getQuery" resultMap="queryAccountMap" parameterType="int">
+		select * from account where a_id=#{id}
+	</select>
+	
+	<select id="query" resultMap="queryAccountMap">
+		select * from account
+	</select>
+	
+	<select id="login" resultType="int" parameterType="Account">
+		select count(*) from account where a_name=#{name} and a_password=#{password} and a_mark=1
+	</select>
+	
+	<update id="active" parameterType="String">
+		update account set a_mark=1 where a_name=#{name}
+	</update>
+	
+</mapper>

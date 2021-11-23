@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yr.mapper.PeopleMapper">
+
+	<resultMap type="com.yr.entity.People" id="queryPeopleMap">
+		<id column="p_id" property="id" />
+		<result column="p_name" property="name" />
+		
+		<association property="father" javaType="com.yr.entity.Father">
+			<id column="f_id" property="id" />
+			<result column="f_name" property="name" />
+		</association>
+	</resultMap>
+	
+	<insert id="add" parameterType="People">
+		insert into people(p_name) values(#{name})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from people where p_id=#{id}
+	</delete>
+	
+	<update id="update" parameterType="People">
+		update people set p_name=#{name} where p_id=#{id}
+	</update>
+
+	<select id="getQuery" resultMap="queryPeopleMap" parameterType="int">
+		select * from people where p_id=#{id}
+	</select>
+	
+	<select id="query" resultMap="queryPeopleMap">
+		select * from people p,father f where p.p_id=f.f_id
+	</select>
+
+</mapper>

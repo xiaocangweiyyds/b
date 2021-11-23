@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yr.mapper.FatherMapper">
+
+	<resultMap type="com.yr.entity.Father" id="queryFatherMap">
+		<id column="f_id" property="id" />
+		<result column="f_name" property="name" />
+		
+		<collection property="people" ofType="com.yr.entity.People">
+			<id column="p_id" property="id" />
+			<result column="p_name" property="name" />
+		</collection>
+	</resultMap>
+	
+	<insert id="add" parameterType="Father">
+		insert into father(f_name) values(#{name})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		update people set father_id=null where father_id=#{id}
+	</delete>
+	
+	<update id="update" parameterType="Father">
+		update father set f_name=#{name} where f_id=#{id}
+	</update>
+
+	<select id="getQuery" resultMap="queryFatherMap" parameterType="int">
+		select * from father where f_id=#{id}
+	</select>
+	
+	<select id="query" resultMap="queryFatherMap">
+		select * from father f<!-- ,people p where f.f_id=p.father_id -->
+	</select>
+	
+</mapper>
